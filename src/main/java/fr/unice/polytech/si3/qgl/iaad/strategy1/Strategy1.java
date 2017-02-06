@@ -1,39 +1,40 @@
-package fr.unice.polytech.si3.qgl.iaad.aerial;
+package fr.unice.polytech.si3.qgl.iaad.strategy1;
 
 import fr.unice.polytech.si3.qgl.iaad.common.StopGame;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
-import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
+import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.Found;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
 
 /**
  * @author Alexandre Clement
- * @since 05/02/2017.
+ * @since 06/02/2017.
  */
-public class Initialisation extends Aerial
+public class Strategy1 implements Protocol
 {
-    public Initialisation(Context context)
+    private final Context context;
+
+    public Strategy1(Context context)
     {
-        super(context);
+        this.context = context;
     }
 
     @Override
     public Decision takeDecision()
     {
-        return new Echo(getContext().getHeading());
+        return new Echo(context.getHeading());
     }
 
     @Override
     public Protocol acknowledgeResults(Result result)
     {
         EchoResult echoResult = new EchoResult(result);
-        if (echoResult.getFound() == Found.OUT_OF_RANGE)
+        context.getIslandMap().increase(context.getHeading(), result.getRange());
+        if (echoResult.getFound() == Found.GROUND)
             return new StopGame();
-        if (echoResult.getRange() == 0)
-            return new StopGame();
-        return new StopGame();
+        return new EchoToFindLimit(context, context.getHeading().getRight());
     }
 }

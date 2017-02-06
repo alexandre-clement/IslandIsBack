@@ -6,27 +6,27 @@ import org.json.JSONObject;
 
 /**
  * @author Alexandre Clement
- * @since 05/02/2017.
+ * @since 06/02/2017.
  */
-public class Echo extends Decision
+public class Heading extends Decision
 {
-    private final Direction direction;
+    private final Direction newHeading;
 
-    public Echo(Direction direction)
+    public Heading(Direction newHeading)
     {
-        super(Actions.ECHO);
-        this.direction = direction;
+        super(Actions.HEADING);
+        this.newHeading = newHeading;
     }
 
-    public Direction getDirection()
+    public Direction getNewHeading()
     {
-        return direction;
+        return newHeading;
     }
 
     @Override
     public JSONObject toJson()
     {
-        JSONObject parameters = new JSONObject().put(JsonArguments.DIRECTION.toString(), direction.toString());
+        JSONObject parameters = new JSONObject().put(JsonArguments.DIRECTION.toString(), newHeading.toString());
         return new JSONObject()
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);

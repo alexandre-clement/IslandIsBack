@@ -22,7 +22,9 @@ public enum JsonArguments
     CREEKS("creeks"),
     SITES("sites"),
     ACTION("action"),
-    DIRECTION("direction");
+    DIRECTION("direction"),
+    CREEK("creek"),
+    PEOPLE("people");
 
     private String name;
 
@@ -31,17 +33,17 @@ public enum JsonArguments
         this.name = name;
     }
 
-    @Override
-    public String toString()
-    {
-        return name;
-    }
-
     public static JsonArguments argumentsOf(String name)
     {
         for (JsonArguments arguments : values())
             if (arguments.toString().equals(name))
                 return arguments;
         return null;
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

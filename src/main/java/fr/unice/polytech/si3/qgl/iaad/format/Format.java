@@ -8,9 +8,9 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
  */
 public interface Format
 {
-    void setContext(String s);
-
     Context getContext();
+
+    void setContext(String s);
 
     Result stringToResult(String s);
 

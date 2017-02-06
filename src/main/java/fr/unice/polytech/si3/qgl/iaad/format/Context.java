@@ -1,6 +1,7 @@
 package fr.unice.polytech.si3.qgl.iaad.format;
 
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
+import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
 
 /**
  * @author Alexandre Clement
@@ -9,4 +10,8 @@ import fr.unice.polytech.si3.qgl.iaad.map.Direction;
 public interface Context
 {
     Direction getHeading();
+
+    int getBudget();
+
+    IslandMap getIslandMap();
 }

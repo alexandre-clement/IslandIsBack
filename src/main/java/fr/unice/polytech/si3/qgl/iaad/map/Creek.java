@@ -6,10 +6,15 @@ package fr.unice.polytech.si3.qgl.iaad.map;
  */
 public class Creek
 {
-    private String creek;
+    private String id;
 
-    public Creek(String creek)
+    public Creek(String id)
     {
-        this.creek = creek;
+        this.id = id;
+    }
+
+    public String getId()
+    {
+        return id;
     }
 }

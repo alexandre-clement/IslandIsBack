@@ -21,6 +21,14 @@ public enum Direction
         this.unitaryVector = unitaryVector;
     }
 
+    public static Direction directionOf(String name)
+    {
+        for (Direction direction : values())
+            if (direction.toString().equals(name))
+                return direction;
+        return null;
+    }
+
     public Vector getUnitaryVector()
     {
         return unitaryVector;
@@ -45,13 +53,5 @@ public enum Direction
     public String toString()
     {
         return name;
-    }
-
-    public static Direction directionOf(String name)
-    {
-        for (Direction direction : values())
-            if (direction.toString().equals(name))
-                return direction;
-        return null;
     }
 }

@@ -1,8 +1,9 @@
 package fr.unice.polytech.si3.qgl.iaad.format.json;
 
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
+import fr.unice.polytech.si3.qgl.iaad.format.Context;
+import fr.unice.polytech.si3.qgl.iaad.format.Format;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.format.*;
 import org.json.JSONObject;
 
 /**
@@ -14,15 +15,15 @@ public class JsonFormat implements Format
     private JsonContext context;
 
     @Override
-    public void setContext(String jsonString)
-    {
-        context = new JsonContext(jsonString);
-    }
-
-    @Override
     public Context getContext()
     {
         return context;
+    }
+
+    @Override
+    public void setContext(String jsonString)
+    {
+        context = new JsonContext(new JSONObject(jsonString));
     }
 
     @Override

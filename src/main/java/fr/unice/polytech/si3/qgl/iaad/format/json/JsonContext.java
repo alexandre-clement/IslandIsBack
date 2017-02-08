@@ -15,12 +15,14 @@ class JsonContext implements Context
     private final int budget;
     private final Direction heading;
     private final IslandMap islandMap;
+    private final int men;
 
     JsonContext(JSONObject jsonObject)
     {
         heading = Direction.directionOf(jsonObject.get(JsonArguments.HEADING.toString()).toString());
         budget = jsonObject.getInt(JsonArguments.BUDGET.toString());
         islandMap = new IslandMap(new Drone(heading));
+        men = jsonObject.getInt(JsonArguments.MEN.toString());
     }
 
     @Override
@@ -39,5 +41,11 @@ class JsonContext implements Context
     public IslandMap getIslandMap()
     {
         return islandMap;
+    }
+
+    @Override
+    public int getMen()
+    {
+        return men;
     }
 }

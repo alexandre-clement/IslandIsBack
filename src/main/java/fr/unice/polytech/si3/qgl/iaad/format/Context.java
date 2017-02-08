@@ -14,4 +14,6 @@ public interface Context
     int getBudget();
 
     IslandMap getIslandMap();
+
+    int getMen();
 }

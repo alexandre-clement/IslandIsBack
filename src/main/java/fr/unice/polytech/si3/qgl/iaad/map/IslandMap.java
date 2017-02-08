@@ -3,6 +3,7 @@ package fr.unice.polytech.si3.qgl.iaad.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Alexandre Clement
@@ -12,41 +13,67 @@ public class IslandMap
 {
     private final List<Tile> map;
     private final Drone drone;
-    private Vector dimension;
+    private Vector dimensions;
 
     public IslandMap(Drone drone)
     {
         this.drone = drone;
-        dimension = new Vector(1, 1);
         map = new ArrayList<>();
         map.add(new Tile());
+        dimensions = new Vector();
     }
 
-    public Tile get(Vector vector)
+    Tile get(Vector vector)
     {
-        return map.get(vector.scalarProduct(dimension));
+        return map.get(vector.getY() * dimensions.getX() + vector.getX());
     }
 
-    public Vector getDimension()
+    public void addBiomes(List<Biomes> biomes)
     {
-        return dimension;
+        addBiomes(drone.getVector(), biomes);
+    }
+
+    private void addBiomes(Vector vector, List<Biomes> biomes)
+    {
+        get(vector).addBiomes(biomes);
+    }
+
+    public void addCreeks(List<Creek> creeks)
+    {
+        addCreeks(drone.getVector(), creeks);
+    }
+
+    private void addCreeks(Vector vector, List<Creek> creeks)
+    {
+        get(vector).addCreeks(creeks);
+    }
+
+    public void addSites(List<Site> sites)
+    {
+        addSites(drone.getVector(), sites);
+    }
+
+    private void addSites(Vector vector, List<Site> sites)
+    {
+        get(vector).addSites(sites);
     }
 
     public void increase(Direction direction, int size)
     {
+        int range = size - getRange(direction);
         switch (direction)
         {
             case NORTH:
-                addNorth(size);
+                addNorth(range);
                 break;
             case EAST:
-                addEast(size);
+                addEast(range);
                 break;
             case SOUTH:
-                addSouth(size);
+                addSouth(range);
                 break;
             case WEST:
-                addWest(size);
+                addWest(range);
         }
     }
 
@@ -57,9 +84,16 @@ public class IslandMap
 
     private int getRange(Direction direction, Vector vector)
     {
-        Vector vectorProjection = vector.vectorProduct(direction.getUnitaryVector());
-        Vector dimensionProjection = dimension.vectorProduct(direction.getUnitaryVector());
-        return (dimensionProjection.abs().addingTheComponents() + dimensionProjection.distance(vectorProjection)) % dimensionProjection.addingTheComponents();
+        Vector unitary = direction.getUnitaryVector();
+        int argument = unitary.dotProduct(Vector.unitary);
+        if (argument > 0)
+            return dimensions.dotProduct(unitary) - vector.dotProduct(unitary);
+        return -vector.dotProduct(unitary);
+    }
+
+    public Drone getDrone()
+    {
+        return drone;
     }
 
     private void addNorth(int size)
@@ -70,9 +104,9 @@ public class IslandMap
 
     private void addNorth()
     {
-        dimension.add(1, 1);
-        drone.getVector().add(Direction.NORTH.getUnitaryVector());
-        for (int i = 0; i < dimension.get(0); i++)
+        dimensions.sub(Direction.NORTH.getUnitaryVector());
+        drone.getVector().sub(Direction.NORTH.getUnitaryVector());
+        for (int i = 0; i < dimensions.getX(); i++)
             map.add(0, new Tile());
     }
 
@@ -84,8 +118,8 @@ public class IslandMap
 
     private void addEast()
     {
-        dimension.add(0, 1);
-        for (int i = dimension.get(0); i < dimension.multiplyTheComponents(); i += dimension.get(0))
+        dimensions.add(Direction.EAST.getUnitaryVector());
+        for (int i = dimensions.getX() - 1; i < dimensions.dotProduct(Vector.unitary); i += dimensions.getX())
             map.add(i, new Tile());
     }
 
@@ -97,8 +131,8 @@ public class IslandMap
 
     private void addSouth()
     {
-        dimension.add(1, 1);
-        for (int i = 0; i < dimension.get(0); i++)
+        dimensions.add(Direction.SOUTH.getUnitaryVector());
+        for (int i = 0; i < dimensions.getX(); i++)
             map.add(new Tile());
     }
 
@@ -110,8 +144,15 @@ public class IslandMap
 
     private void addWest()
     {
-        dimension.add(0, 1);
-        for (int i = 0; i < dimension.multiplyTheComponents(); i += dimension.get(0))
+        dimensions.sub(Direction.WEST.getUnitaryVector());
+        drone.getVector().sub(Direction.WEST.getUnitaryVector());
+        for (int i = 0; i < dimensions.dotProduct(Vector.unitary); i += dimensions.getX())
             map.add(i, new Tile());
+    }
+
+    @Override
+    public String toString()
+    {
+        return map.stream().map(Object::toString).collect(Collectors.joining(", "));
     }
 }

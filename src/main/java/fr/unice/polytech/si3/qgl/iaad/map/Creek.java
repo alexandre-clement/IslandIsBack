@@ -17,4 +17,10 @@ public class Creek
     {
         return id;
     }
+
+    @Override
+    public String toString()
+    {
+        return id;
+    }
 }

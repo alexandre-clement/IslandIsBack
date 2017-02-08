@@ -6,7 +6,9 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
+import fr.unice.polytech.si3.qgl.iaad.map.Direction;
 import fr.unice.polytech.si3.qgl.iaad.map.Found;
+import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
 
 /**
@@ -15,26 +17,29 @@ import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
  */
 public class Strategy1 implements Protocol
 {
-    private final Context context;
+    private final IslandMap map;
+    private final Direction heading;
 
     public Strategy1(Context context)
     {
-        this.context = context;
+        map = context.getIslandMap();
+        heading = context.getHeading();
     }
 
     @Override
     public Decision takeDecision()
     {
-        return new Echo(context.getHeading());
+        return new Echo(heading);
     }
 
     @Override
     public Protocol acknowledgeResults(Result result)
     {
         EchoResult echoResult = new EchoResult(result);
-        context.getIslandMap().increase(context.getHeading(), result.getRange());
+        map.increase(heading, echoResult.getRange());
+
         if (echoResult.getFound() == Found.GROUND)
             return new StopGame();
-        return new EchoToFindLimit(context, context.getHeading().getRight());
+        return new EchoToFindLimit(map, heading.getRight());
     }
 }

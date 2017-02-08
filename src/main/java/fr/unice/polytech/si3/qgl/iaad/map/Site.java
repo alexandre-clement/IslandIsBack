@@ -6,10 +6,16 @@ package fr.unice.polytech.si3.qgl.iaad.map;
  */
 public class Site
 {
-    private String site;
+    private String id;
 
     public Site(String site)
     {
-        this.site = site;
+        this.id = site;
+    }
+
+    @Override
+    public String toString()
+    {
+        return id;
     }
 }

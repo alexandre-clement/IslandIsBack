@@ -31,7 +31,7 @@ public enum Direction
 
     public Vector getUnitaryVector()
     {
-        return unitaryVector;
+        return new Vector(unitaryVector);
     }
 
     public Direction getRight()

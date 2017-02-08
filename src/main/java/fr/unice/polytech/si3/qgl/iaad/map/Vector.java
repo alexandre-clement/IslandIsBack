@@ -4,117 +4,99 @@ package fr.unice.polytech.si3.qgl.iaad.map;
  * @author Alexandre Clement
  * @since 06/02/2017.
  */
-public class Vector
+class Vector
 {
-    private static final String DIMENSION_DISAGREE = "dimensions disagree";
-    private final int[] coordinates;
+    static final Vector unitary = new Vector(1, 1);
+    private int x;
+    private int y;
 
-    Vector(int... coordinates)
+    Vector()
     {
-        this.coordinates = coordinates;
+        this(0, 0);
     }
 
-    void add(Vector vector)
+    Vector(int x, int y)
     {
-        if (coordinates.length != vector.coordinates.length)
-            throw new IllegalArgumentException();
-
-        for (int i = 0; i < coordinates.length; i++)
-            coordinates[i] += vector.coordinates[i];
+        this.x = x;
+        this.y = y;
     }
 
-    void set(int coordinate, int value)
+    Vector(Vector vector)
     {
-        coordinates[coordinate] = value;
+        this(vector.getX(), vector.getY());
     }
 
-    int get(int coordinate)
+    double distance(Vector vector)
     {
-        return coordinates[coordinate];
+        return new Vector(x - vector.getX(), y - vector.getY()).magnitude();
     }
 
-    void add(int coordinate, int value)
+    Vector add(Vector vector)
     {
-        set(coordinate, get(coordinate) + value);
+        x += vector.getX();
+        y += vector.getY();
+        return this;
     }
 
-    int scalarProduct(Vector vector)
+    Vector sub(Vector vector)
     {
-        if (coordinates.length != vector.coordinates.length)
-            throw new IllegalArgumentException(DIMENSION_DISAGREE);
-
-        int scalar = 0;
-        for (int i = 0; i < coordinates.length; i++)
-        {
-            scalar += coordinates[i] * vector.coordinates[i];
-        }
-        return scalar;
+        return add(vector.getOpposite());
     }
 
-    Vector vectorProduct(Vector vector)
+    private Vector getOpposite()
     {
-        if (coordinates.length != vector.coordinates.length)
-            throw new IllegalArgumentException(DIMENSION_DISAGREE);
-
-        int[] product = new int[coordinates.length];
-        for (int i = 0; i < coordinates.length; i++)
-        {
-            product[i] = coordinates[i] * vector.coordinates[i];
-        }
-        return new Vector(product);
+        return new Vector(-x, -y);
     }
 
-    Vector abs()
+    private int squared()
     {
-        int[] abs = new int[coordinates.length];
-        for (int i = 0; i < coordinates.length; i++)
-        {
-            abs[i] = Math.abs(coordinates[i]);
-        }
-        return new Vector(abs);
+        return x * x + y * y;
     }
 
-    int addingTheComponents()
+    int dotProduct(Vector vector)
     {
-        int reduced = 0;
-        for (int coordinate : coordinates)
-        {
-            reduced += coordinate;
-        }
-        return reduced;
+        return (squared() + vector.squared() - new Vector(vector).sub(this).squared()) / 2;
     }
 
-    int multiplyTheComponents()
+    double magnitude()
     {
-        int reduced = 1;
-        for (int coordinate : coordinates)
-        {
-            reduced *= coordinate;
-        }
-        return reduced;
+        return Math.sqrt(squared());
     }
 
-    int distance(Vector vector)
+    int getX()
     {
-        if (coordinates.length != vector.coordinates.length)
-            throw new IllegalArgumentException(DIMENSION_DISAGREE);
+        return x;
+    }
 
-        int distance = 0;
-        for (int i = 0; i < coordinates.length; i++)
-        {
-            distance += coordinates[i] - vector.coordinates[i];
-        }
-        return distance;
+    int getY()
+    {
+        return y;
     }
 
     @Override
     public String toString()
     {
-        StringBuilder stringBuilder = new StringBuilder("(");
-        for (int coordinate : coordinates)
-        {
-            stringBuilder.append(coordinate).append(", ");
-        }
-        return stringBuilder.replace(stringBuilder.length() - 2, stringBuilder.length(), ")").toString();
+        return String.format("(%s, %s)", x, y);
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Vector vector = (Vector) o;
+
+        return x == vector.getX() && y == vector.getY();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
 }

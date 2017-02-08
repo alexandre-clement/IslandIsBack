@@ -6,13 +6,13 @@ package fr.unice.polytech.si3.qgl.iaad.map;
  */
 public class Drone
 {
-    private final Direction heading;
-    private Vector vector;
+    private final Vector vector;
+    private Direction heading;
 
     public Drone(Direction heading)
     {
         this.heading = heading;
-        vector = new Vector(0, 0);
+        vector = new Vector();
     }
 
     Vector getVector()
@@ -20,8 +20,31 @@ public class Drone
         return vector;
     }
 
+    private void move(Vector vector)
+    {
+        this.vector.add(vector);
+    }
+
+    public void fly()
+    {
+        move(heading.getUnitaryVector());
+    }
+
+    public void heading(Direction direction)
+    {
+        fly();
+        heading = direction;
+        fly();
+    }
+
     public Direction getHeading()
     {
         return heading;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("Drone[%s, %s]", heading, vector);
     }
 }

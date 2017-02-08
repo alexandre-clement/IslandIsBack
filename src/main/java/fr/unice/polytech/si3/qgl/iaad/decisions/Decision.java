@@ -15,7 +15,7 @@ public abstract class Decision
         this.actions = actions;
     }
 
-    Actions getActions()
+    public Actions getActions()
     {
         return actions;
     }

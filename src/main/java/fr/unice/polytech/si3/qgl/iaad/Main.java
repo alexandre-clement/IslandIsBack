@@ -6,6 +6,9 @@ import static eu.ace_design.island.runner.Runner.run;
 
 public class Main
 {
+    private Main()
+    {
+    }
 
     public static void main(String[] args) throws Exception
     {

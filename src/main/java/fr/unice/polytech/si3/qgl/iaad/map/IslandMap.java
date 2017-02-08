@@ -23,7 +23,7 @@ public class IslandMap
         dimensions = new Vector();
     }
 
-    Tile get(Vector vector)
+    private Tile get(Vector vector)
     {
         return map.get(vector.getY() * dimensions.getX() + vector.getX());
     }
@@ -38,6 +38,16 @@ public class IslandMap
         get(vector).addBiomes(biomes);
     }
 
+    public List<Biomes> getBiomes()
+    {
+        return getBiomes(drone.getVector());
+    }
+
+    private List<Biomes> getBiomes(Vector vector)
+    {
+        return get(vector).getBiomes();
+    }
+
     public void addCreeks(List<Creek> creeks)
     {
         addCreeks(drone.getVector(), creeks);
@@ -48,6 +58,16 @@ public class IslandMap
         get(vector).addCreeks(creeks);
     }
 
+    public List<Creek> getCreeks()
+    {
+        return getCreeks(drone.getVector());
+    }
+
+    private List<Creek> getCreeks(Vector vector)
+    {
+        return get(vector).getCreeks();
+    }
+
     public void addSites(List<Site> sites)
     {
         addSites(drone.getVector(), sites);
@@ -56,6 +76,16 @@ public class IslandMap
     private void addSites(Vector vector, List<Site> sites)
     {
         get(vector).addSites(sites);
+    }
+
+    public List<Site> getSites()
+    {
+        return getSites(drone.getVector());
+    }
+
+    private List<Site> getSites(Vector vector)
+    {
+        return get(vector).getSites();
     }
 
     public void increase(Direction direction, int size)

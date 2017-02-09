@@ -14,17 +14,29 @@ public enum Resource
     QUARTZ("QUARTZ"),
     SUGAR_CANE("SUGAR_CANE"),
     WOOD("WOOD"),
-    GLASS("GLASS"),
-    INGOT("INGOT"),
-    LEATHER("LEATHER"),
-    PLANK("PLANK"),
-    RUM("RUM");
+    GLASS("GLASS", new Contract(QUARTZ, 10), new Contract(WOOD, 5)),
+    INGOT("INGOT", new Contract(ORE, 5), new Contract(WOOD, 5)),
+    LEATHER("LEATHER", new Contract(FUR, 3)),
+    PLANK("PLANK", new Contract(WOOD, 0.25)),
+    RUM("RUM", new Contract(QUARTZ, 10), new Contract(WOOD, 5));
 
-    private String name;
+    private final String name;
+    private final Contract[] contracts;
 
-    Resource(String name)
+    Resource(String name, Contract... contracts)
     {
         this.name = name;
+        this.contracts = contracts;
+    }
+
+    public Contract[] getContracts()
+    {
+        return contracts;
+    }
+
+    public boolean isCraft()
+    {
+        return contracts.length > 0;
     }
 
     @Override

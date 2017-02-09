@@ -1,18 +1,38 @@
 package fr.unice.polytech.si3.qgl.iaad.resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Alexandre Clement
  * @since 09/02/2017.
  */
 public class Contract
 {
+    private final Basket basket;
     private final Resource resource;
-    private int amount;
+    private final double amount;
+    private final List<Contract> underContract;
 
-    public Contract(Resource resource, int amount)
+    public Contract(Resource resource, double amount)
     {
         this.resource = resource;
         this.amount = amount;
+
+        underContract = new ArrayList<>();
+        basket = new Basket();
+
+        if (!resource.isCraft())
+            basket.add(resource, amount);
+        else
+            for (Contract contract : resource.getContracts())
+                underContract.add(new Contract(contract.getResource(), contract.getAmount() * amount));
+        underContract.stream().map(Contract::getBasket).forEach(basket::addAll);
+    }
+
+    public List<Contract> getUnderContract()
+    {
+        return underContract;
     }
 
     public Resource getResource()
@@ -22,16 +42,16 @@ public class Contract
 
     public int getAmount()
     {
-        return amount;
+        return (int) Math.ceil(amount);
+    }
+
+    public Basket getBasket()
+    {
+        return basket;
     }
 
     public boolean complete()
     {
-        return amount <= 0;
-    }
-
-    public void retrieves(int amount)
-    {
-        this.amount -= amount;
+        return basket.isEmpty();
     }
 }

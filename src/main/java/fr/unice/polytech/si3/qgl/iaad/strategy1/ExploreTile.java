@@ -18,11 +18,13 @@ class ExploreTile implements Protocol
 {
     private Protocol exit;
     private final Context context;
+    private final GroundMap map;
 
     ExploreTile(Protocol exit, Context context, GroundMap map)
     {
         this.exit = exit;
         this.context = context;
+        this.map = map;
     }
 
     @Override
@@ -40,12 +42,12 @@ class ExploreTile implements Protocol
         {
             for (Contract contract : context.getContracts())
             {
-                boolean equals = resourceInformation.getResource() == contract.getResource();
+                boolean equals = contract.getBasket().contains(resourceInformation.getResource());
                 boolean complete = contract.complete();
                 boolean fair = resourceInformation.isFair();
                 boolean worth = resourceInformation.isWorth();
                 if (equals && !complete && fair && worth)
-                    exit = new ExploitTile(exit, contract);
+                    exit = new ExploitTile(exit, context, map, resourceInformation.getResource());
             }
         }
         return exit;

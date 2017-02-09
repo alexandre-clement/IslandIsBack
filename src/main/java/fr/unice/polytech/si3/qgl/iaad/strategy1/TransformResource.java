@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Transform;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
+import fr.unice.polytech.si3.qgl.iaad.results.TransformResult;
 
 /**
  * @author Alexandre Clement
@@ -30,6 +31,8 @@ class TransformResource implements Protocol
     @Override
     public Protocol acknowledgeResults(Result result)
     {
+        TransformResult transformResult = new TransformResult(result);
+        contract.collect(transformResult.getProduction());
         return exit;
     }
 }

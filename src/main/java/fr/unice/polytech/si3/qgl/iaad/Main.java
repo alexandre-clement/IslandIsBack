@@ -14,7 +14,7 @@ public class Main
     {
 
         run(Explorer.class)
-                .exploring(new File("map/map45.json"))
+                .exploring(new File("map/map1553.json"))
                 .withSeed(0L)
                 .startingAt(1, 1, "EAST")
                 .backBefore(30000)

@@ -1,7 +1,6 @@
 package fr.unice.polytech.si3.qgl.iaad.resource;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.stream.IntStream;
 
 /**
@@ -30,6 +29,11 @@ public class Basket extends ArrayList<Resource>
         IntStream.range(0, number).forEach(i -> this.add(resource));
     }
 
+    void remove(Resource resource, int number)
+    {
+        IntStream.range(0, number).forEach(i -> this.remove(resource));
+    }
+
     public void remove(Basket basket)
     {
         Basket temp = new Basket(basket);
@@ -51,5 +55,18 @@ public class Basket extends ArrayList<Resource>
                 return false;
         }
         return true;
+    }
+
+    private int countResource(Resource resource)
+    {
+        return (int) super.stream().filter(i -> i.equals(resource)).count();
+    }
+
+    Map<Resource, Integer> getMap()
+    {
+        Map<Resource, Integer> map = new EnumMap<>(Resource.class);
+        for (Resource resource : new HashSet<>(this))
+            map.put(resource, countResource(resource));
+        return map;
     }
 }

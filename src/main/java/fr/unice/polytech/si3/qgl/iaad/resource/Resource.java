@@ -18,7 +18,7 @@ public enum Resource
     INGOT("INGOT", new Contract(ORE, 5), new Contract(WOOD, 5)),
     LEATHER("LEATHER", new Contract(FUR, 3)),
     PLANK("PLANK", new Contract(WOOD, 0.25)),
-    RUM("RUM", new Contract(QUARTZ, 10), new Contract(WOOD, 5));
+    RUM("RUM", new Contract(SUGAR_CANE, 10), new Contract(FRUITS, 1));
 
     private final String name;
     private final Contract[] contracts;

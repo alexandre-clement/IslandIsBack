@@ -25,4 +25,6 @@ public interface Result
     List<ResourceInformation> getResources();
 
     int getAmount();
+
+    int getProduction();
 }

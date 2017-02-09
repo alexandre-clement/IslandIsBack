@@ -26,7 +26,8 @@ public enum JsonArguments
     ACTION("action"),
     DIRECTION("direction"),
     CREEK("creek"),
-    PEOPLE("people");
+    PEOPLE("people"),
+    PRODUCTION("production");
 
     private String name;
 

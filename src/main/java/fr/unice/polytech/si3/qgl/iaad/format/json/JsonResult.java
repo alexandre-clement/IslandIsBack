@@ -86,4 +86,10 @@ class JsonResult implements Result
         ResourceCondition resourceCondition = ResourceCondition.valueOf(jsonObject.get(JsonArguments.COND.toString()).toString());
         return new ResourceInformation(resource, resourceAmount, resourceCondition);
     }
+
+    @Override
+    public int getProduction()
+    {
+        return extras.getInt(JsonArguments.PRODUCTION.toString());
+    }
 }

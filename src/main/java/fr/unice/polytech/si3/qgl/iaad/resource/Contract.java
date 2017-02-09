@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.iaad.resource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alexandre Clement
@@ -12,26 +13,29 @@ public class Contract
     private final Basket basket;
     private final Resource resource;
     private final double amount;
-    private final List<Contract> underContract;
 
     public Contract(Resource resource, double amount)
     {
         this.resource = resource;
         this.amount = amount;
 
-        underContract = new ArrayList<>();
         basket = new Basket();
 
         if (!resource.isCraft())
             basket.add(resource, amount);
         else
             for (Contract contract : resource.getContracts())
-                underContract.add(new Contract(contract.getResource(), contract.getAmount() * amount));
-        underContract.stream().map(Contract::getBasket).forEach(basket::addAll);
+                basket.add(contract.getResource(), contract.amount * amount);
+
     }
 
     public List<Contract> getUnderContract()
     {
+        List<Contract> underContract = new ArrayList<>();
+        for (Map.Entry<Resource, Integer> entry : basket.getMap().entrySet())
+        {
+            underContract.add(new Contract(entry.getKey(), entry.getValue()));
+        }
         return underContract;
     }
 
@@ -48,6 +52,15 @@ public class Contract
     public Basket getBasket()
     {
         return basket;
+    }
+
+    public void collect(int collected)
+    {
+        if (!resource.isCraft())
+            basket.remove(resource, collected);
+        else
+            for (Contract contract : resource.getContracts())
+                basket.remove(contract.getResource(), contract.getAmount() * collected);
     }
 
     public boolean complete()

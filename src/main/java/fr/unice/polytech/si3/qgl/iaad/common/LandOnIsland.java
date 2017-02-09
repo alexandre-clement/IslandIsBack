@@ -3,7 +3,7 @@ package fr.unice.polytech.si3.qgl.iaad.common;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Land;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
-import fr.unice.polytech.si3.qgl.iaad.format.Creek;
+import fr.unice.polytech.si3.qgl.iaad.resource.Creek;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
 

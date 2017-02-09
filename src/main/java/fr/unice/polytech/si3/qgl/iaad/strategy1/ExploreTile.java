@@ -5,6 +5,8 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Explore;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.*;
 import fr.unice.polytech.si3.qgl.iaad.map.GroundMap;
+import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
+import fr.unice.polytech.si3.qgl.iaad.resource.ResourceInformation;
 import fr.unice.polytech.si3.qgl.iaad.results.ExploreResult;
 
 

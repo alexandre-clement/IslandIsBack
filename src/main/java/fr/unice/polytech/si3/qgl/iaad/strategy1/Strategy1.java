@@ -5,14 +5,11 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
-import fr.unice.polytech.si3.qgl.iaad.format.Contract;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.format.Found;
+import fr.unice.polytech.si3.qgl.iaad.resource.Found;
 import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
-
-import java.util.List;
 
 /**
  * @author Alexandre Clement

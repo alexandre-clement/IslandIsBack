@@ -1,8 +1,7 @@
 package fr.unice.polytech.si3.qgl.iaad.format.json;
 
 import fr.unice.polytech.si3.qgl.iaad.format.*;
-import fr.unice.polytech.si3.qgl.iaad.format.Found;
-import fr.unice.polytech.si3.qgl.iaad.format.Resource;
+import fr.unice.polytech.si3.qgl.iaad.resource.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

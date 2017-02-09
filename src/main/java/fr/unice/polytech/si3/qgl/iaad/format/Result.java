@@ -1,5 +1,7 @@
 package fr.unice.polytech.si3.qgl.iaad.format;
 
+import fr.unice.polytech.si3.qgl.iaad.resource.*;
+
 import java.util.List;
 
 /**

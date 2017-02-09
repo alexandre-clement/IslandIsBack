@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.iaad.decisions;
 
 import fr.unice.polytech.si3.qgl.iaad.format.json.JsonArguments;
-import fr.unice.polytech.si3.qgl.iaad.format.Creek;
+import fr.unice.polytech.si3.qgl.iaad.resource.Creek;
 import org.json.JSONObject;
 
 /**

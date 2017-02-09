@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.iaad.format.json;
 
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
-import fr.unice.polytech.si3.qgl.iaad.format.Contract;
-import fr.unice.polytech.si3.qgl.iaad.format.Resource;
+import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
+import fr.unice.polytech.si3.qgl.iaad.resource.Resource;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
 import fr.unice.polytech.si3.qgl.iaad.map.Drone;
 import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;

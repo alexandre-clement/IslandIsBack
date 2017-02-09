@@ -2,6 +2,7 @@ package fr.unice.polytech.si3.qgl.iaad.format;
 
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
 import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
+import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package fr.unice.polytech.si3.qgl.iaad.results;
 
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.map.Found;
+import fr.unice.polytech.si3.qgl.iaad.format.Found;
 
 /**
  * @author Alexandre Clement

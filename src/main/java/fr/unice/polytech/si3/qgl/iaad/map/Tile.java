@@ -1,23 +1,44 @@
 package fr.unice.polytech.si3.qgl.iaad.map;
 
+import fr.unice.polytech.si3.qgl.iaad.format.Biomes;
+import fr.unice.polytech.si3.qgl.iaad.format.Creek;
+import fr.unice.polytech.si3.qgl.iaad.format.Site;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Alexandre Clement
- * @since 06/02/2017.
+ * @since 08/02/2017.
  */
-class Tile
+public class Tile
 {
     private final List<Biomes> biomes;
     private final List<Creek> creeks;
     private final List<Site> sites;
+    private int visited;
 
     Tile()
     {
         this.biomes = new ArrayList<>();
         this.creeks = new ArrayList<>();
         this.sites = new ArrayList<>();
+        visited = 0;
+    }
+
+    void visit()
+    {
+        visited += 1;
+    }
+
+    private int getVisited()
+    {
+        return visited;
+    }
+
+    public boolean isAlreadyVisited()
+    {
+        return getVisited() != 0;
     }
 
     void addBiomes(List<Biomes> biomes)
@@ -35,17 +56,17 @@ class Tile
         this.sites.addAll(sites);
     }
 
-    public List<Biomes> getBiomes()
+    List<Biomes> getBiomes()
     {
         return biomes;
     }
 
-    public List<Creek> getCreeks()
+    List<Creek> getCreeks()
     {
         return creeks;
     }
 
-    public List<Site> getSites()
+    List<Site> getSites()
     {
         return sites;
     }

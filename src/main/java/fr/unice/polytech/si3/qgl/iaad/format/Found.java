@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.iaad.map;
+package fr.unice.polytech.si3.qgl.iaad.format;
 
 /**
  * @author Alexandre Clement

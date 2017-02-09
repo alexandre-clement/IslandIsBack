@@ -1,36 +1,71 @@
 package fr.unice.polytech.si3.qgl.iaad.map;
 
+import fr.unice.polytech.si3.qgl.iaad.format.Biomes;
+import fr.unice.polytech.si3.qgl.iaad.format.Creek;
+import fr.unice.polytech.si3.qgl.iaad.format.Site;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * @author Alexandre Clement
- * @since 06/02/2017.
+ * @since 08/02/2017.
  */
-public class IslandMap
+public abstract class IslandMap
 {
+    private final Workforce workforce;
     private final List<Tile> map;
-    private final Drone drone;
-    private Vector dimensions;
+    private final Vector dimensions;
 
-    public IslandMap(Drone drone)
+    IslandMap(Workforce workforce)
     {
-        this.drone = drone;
+        this.workforce = workforce;
         map = new ArrayList<>();
-        map.add(new Tile());
         dimensions = new Vector();
+    }
+
+    IslandMap(Workforce workforce, Vector dimensions)
+    {
+        this(workforce);
+        this.dimensions.setVector(dimensions);
+        for (int i = 0; i < size(); i++)
+            map.add(new Tile());
+    }
+
+    private int size()
+    {
+        return dimensions.getX() * dimensions.getY();
+    }
+
+    private boolean isInRange(Vector location)
+    {
+        int position = getTilePosition(location);
+        return 0 <= position && position < size();
+    }
+
+    private Tile getCurrentTile()
+    {
+        return get(workforce.getLocation());
+    }
+
+    public Optional<Tile> getNextTile(Direction direction)
+    {
+        Vector nextTile = workforce.getLocation().add(direction.getUnitaryVector());
+        if (isInRange(nextTile))
+            return Optional.of(get(nextTile));
+        return Optional.empty();
     }
 
     private Tile get(Vector vector)
     {
-        return map.get(vector.getY() * dimensions.getX() + vector.getX());
+        return map.get(getTilePosition(vector));
     }
 
-    public void addBiomes(List<Biomes> biomes)
+    private void addBiomes(List<Biomes> biomes)
     {
-        addBiomes(drone.getVector(), biomes);
+        addBiomes(workforce.getLocation(), biomes);
     }
 
     private void addBiomes(Vector vector, List<Biomes> biomes)
@@ -40,7 +75,7 @@ public class IslandMap
 
     public List<Biomes> getBiomes()
     {
-        return getBiomes(drone.getVector());
+        return getBiomes(workforce.getLocation());
     }
 
     private List<Biomes> getBiomes(Vector vector)
@@ -48,9 +83,9 @@ public class IslandMap
         return get(vector).getBiomes();
     }
 
-    public void addCreeks(List<Creek> creeks)
+    private void addCreeks(List<Creek> creeks)
     {
-        addCreeks(drone.getVector(), creeks);
+        addCreeks(workforce.getLocation(), creeks);
     }
 
     private void addCreeks(Vector vector, List<Creek> creeks)
@@ -60,7 +95,7 @@ public class IslandMap
 
     public List<Creek> getCreeks()
     {
-        return getCreeks(drone.getVector());
+        return getCreeks(workforce.getLocation());
     }
 
     private List<Creek> getCreeks(Vector vector)
@@ -68,9 +103,9 @@ public class IslandMap
         return get(vector).getCreeks();
     }
 
-    public void addSites(List<Site> sites)
+    private void addSites(List<Site> sites)
     {
-        addSites(drone.getVector(), sites);
+        addSites(workforce.getLocation(), sites);
     }
 
     private void addSites(Vector vector, List<Site> sites)
@@ -80,12 +115,25 @@ public class IslandMap
 
     public List<Site> getSites()
     {
-        return getSites(drone.getVector());
+        return getSites(workforce.getLocation());
     }
 
     private List<Site> getSites(Vector vector)
     {
         return get(vector).getSites();
+    }
+
+    public void visitCurrentTile()
+    {
+        getCurrentTile().visit();
+    }
+
+    public void visitCurrentTile(List<Biomes> biomes, List<Creek> creeks, List<Site> sites)
+    {
+        visitCurrentTile();
+        addBiomes(biomes);
+        addCreeks(creeks);
+        addSites(sites);
     }
 
     public void increase(Direction direction, int size)
@@ -109,7 +157,7 @@ public class IslandMap
 
     public int getRange(Direction direction)
     {
-        return getRange(direction, drone.getVector());
+        return getRange(direction, workforce.getLocation());
     }
 
     private int getRange(Direction direction, Vector vector)
@@ -121,9 +169,19 @@ public class IslandMap
         return -vector.dotProduct(unitary);
     }
 
-    public Drone getDrone()
+    Workforce getWorkforce()
     {
-        return drone;
+        return workforce;
+    }
+
+    Vector getDimensions()
+    {
+        return new Vector(dimensions);
+    }
+
+    List<Tile> getMap()
+    {
+        return map;
     }
 
     private void addNorth(int size)
@@ -135,7 +193,7 @@ public class IslandMap
     private void addNorth()
     {
         dimensions.sub(Direction.NORTH.getUnitaryVector());
-        drone.getVector().sub(Direction.NORTH.getUnitaryVector());
+        workforce.getLocation().sub(Direction.NORTH.getUnitaryVector());
         for (int i = 0; i < dimensions.getX(); i++)
             map.add(0, new Tile());
     }
@@ -149,7 +207,7 @@ public class IslandMap
     private void addEast()
     {
         dimensions.add(Direction.EAST.getUnitaryVector());
-        for (int i = dimensions.getX() - 1; i < dimensions.dotProduct(Vector.unitary); i += dimensions.getX())
+        for (int i = dimensions.getX() - 1; i < size(); i += dimensions.getX())
             map.add(i, new Tile());
     }
 
@@ -175,9 +233,31 @@ public class IslandMap
     private void addWest()
     {
         dimensions.sub(Direction.WEST.getUnitaryVector());
-        drone.getVector().sub(Direction.WEST.getUnitaryVector());
-        for (int i = 0; i < dimensions.dotProduct(Vector.unitary); i += dimensions.getX())
+        workforce.getLocation().sub(Direction.WEST.getUnitaryVector());
+        for (int i = 0; i < size(); i += dimensions.getX())
             map.add(i, new Tile());
+    }
+
+    public void land(Creek creek)
+    {
+        Optional<Tile> optional = map.stream().filter(tile -> tile.getCreeks().contains(creek)).findFirst();
+        optional.ifPresent(tile -> getWorkforce().setLocation(getContainerLocation(tile)));
+    }
+
+    private Vector getContainerLocation(Tile tile)
+    {
+        int position = getMap().indexOf(tile);
+        return getVectorFromPosition(position);
+    }
+
+    private int getTilePosition(Vector vector)
+    {
+        return vector.getY() * dimensions.getX() + vector.getX();
+    }
+
+    private Vector getVectorFromPosition(int position)
+    {
+        return new Vector(position % dimensions.getX(), position / dimensions.getX());
     }
 
     @Override

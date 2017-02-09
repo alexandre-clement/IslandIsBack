@@ -1,7 +1,9 @@
 package fr.unice.polytech.si3.qgl.iaad.format;
 
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
+import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
+
+import java.util.List;
 
 /**
  * @author Alexandre Clement
@@ -13,7 +15,9 @@ public interface Context
 
     int getBudget();
 
-    IslandMap getIslandMap();
+    AerialMap getIslandMap();
 
     int getMen();
+
+    List<Contract> getContracts();
 }

@@ -3,8 +3,9 @@ package fr.unice.polytech.si3.qgl.iaad.common;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Land;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
+import fr.unice.polytech.si3.qgl.iaad.format.Creek;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.map.Creek;
+import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
 
 /**
  * @author Alexandre Clement
@@ -12,13 +13,15 @@ import fr.unice.polytech.si3.qgl.iaad.map.Creek;
  */
 public class LandOnIsland implements Protocol
 {
-    private Protocol exit;
-    private Creek creek;
-    private int people;
+    private final Protocol exit;
+    private final IslandMap map;
+    private final Creek creek;
+    private final int people;
 
-    public LandOnIsland(Protocol exit, Creek creek, int people)
+    public LandOnIsland(Protocol exit, IslandMap map, Creek creek, int people)
     {
         this.exit = exit;
+        this.map = map;
         this.creek = creek;
         this.people = people;
     }
@@ -26,6 +29,7 @@ public class LandOnIsland implements Protocol
     @Override
     public Decision takeDecision()
     {
+        map.land(creek);
         return new Land(creek, people);
     }
 

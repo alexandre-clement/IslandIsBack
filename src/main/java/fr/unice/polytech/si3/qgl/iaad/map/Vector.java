@@ -43,6 +43,13 @@ class Vector
         return add(vector.getOpposite());
     }
 
+    Vector mul(Vector vector)
+    {
+        x *= vector.getX();
+        y *= vector.getY();
+        return this;
+    }
+
     private Vector getOpposite()
     {
         return new Vector(-x, -y);
@@ -71,6 +78,12 @@ class Vector
     int getY()
     {
         return y;
+    }
+
+    void setVector(Vector location)
+    {
+        this.x = location.getX();
+        this.y = location.getY();
     }
 
     @Override

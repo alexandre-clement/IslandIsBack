@@ -4,25 +4,14 @@ package fr.unice.polytech.si3.qgl.iaad.map;
  * @author Alexandre Clement
  * @since 06/02/2017.
  */
-public class Drone
+public class Drone extends Workforce
 {
-    private final Vector vector;
     private Direction heading;
 
     public Drone(Direction heading)
     {
+        super(new Vector());
         this.heading = heading;
-        vector = new Vector();
-    }
-
-    Vector getVector()
-    {
-        return vector;
-    }
-
-    private void move(Vector vector)
-    {
-        this.vector.add(vector);
     }
 
     public void fly()
@@ -45,6 +34,6 @@ public class Drone
     @Override
     public String toString()
     {
-        return String.format("Drone[%s, %s]", heading, vector);
+        return String.format("Drone[%s, %s]", heading, getLocation());
     }
 }

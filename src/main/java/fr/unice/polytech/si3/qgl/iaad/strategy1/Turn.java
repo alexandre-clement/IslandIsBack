@@ -5,7 +5,7 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Heading;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
+import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
 
 /**
  * @author Alexandre Clement
@@ -14,10 +14,10 @@ import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
 class Turn implements Protocol
 {
     private final Protocol exit;
-    private final IslandMap map;
+    private final AerialMap map;
     private final Direction newHeading;
 
-    Turn(Protocol exit, IslandMap map, Direction newHeading)
+    Turn(Protocol exit, AerialMap map, Direction newHeading)
     {
         this.exit = exit;
         this.map = map;

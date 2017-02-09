@@ -11,12 +11,12 @@ import static org.junit.Assert.*;
  */
 public class IslandMapTest
 {
-    private IslandMap islandMap;
+    private AerialMap islandMap;
 
     @Before
     public void setUp() throws Exception
     {
-        islandMap = new IslandMap(new Drone(Direction.EAST));
+        islandMap = new AerialMap(new Drone(Direction.EAST));
     }
 
     @Test

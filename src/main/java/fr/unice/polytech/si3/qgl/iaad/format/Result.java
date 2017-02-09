@@ -1,10 +1,5 @@
 package fr.unice.polytech.si3.qgl.iaad.format;
 
-import fr.unice.polytech.si3.qgl.iaad.map.Biomes;
-import fr.unice.polytech.si3.qgl.iaad.map.Creek;
-import fr.unice.polytech.si3.qgl.iaad.map.Found;
-import fr.unice.polytech.si3.qgl.iaad.map.Site;
-
 import java.util.List;
 
 /**
@@ -24,4 +19,8 @@ public interface Result
     List<Creek> getCreeks();
 
     List<Site> getSites();
+
+    List<ResourceInformation> getResources();
+
+    int getAmount();
 }

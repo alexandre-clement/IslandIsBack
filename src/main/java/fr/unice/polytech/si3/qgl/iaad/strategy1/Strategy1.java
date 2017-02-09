@@ -5,11 +5,14 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
+import fr.unice.polytech.si3.qgl.iaad.format.Contract;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.Found;
-import fr.unice.polytech.si3.qgl.iaad.map.IslandMap;
+import fr.unice.polytech.si3.qgl.iaad.format.Found;
+import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
+
+import java.util.List;
 
 /**
  * @author Alexandre Clement
@@ -17,11 +20,13 @@ import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
  */
 public class Strategy1 implements Protocol
 {
-    private final IslandMap map;
+    private final AerialMap map;
     private final Direction heading;
+    private final Context context;
 
     public Strategy1(Context context)
     {
+        this.context = context;
         map = context.getIslandMap();
         heading = context.getHeading();
     }
@@ -40,6 +45,6 @@ public class Strategy1 implements Protocol
 
         if (echoResult.getFound() == Found.GROUND)
             return new StopGame();
-        return new EchoToFindLimit(map, heading.getRight());
+        return new EchoToFindLimit(context, map, heading.getRight());
     }
 }

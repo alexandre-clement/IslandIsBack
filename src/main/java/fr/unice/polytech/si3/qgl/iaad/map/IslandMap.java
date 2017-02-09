@@ -41,8 +41,9 @@ public abstract class IslandMap
 
     private boolean isInRange(Vector location)
     {
-        int position = getTilePosition(location);
-        return 0 <= position && position < size();
+        boolean x = 0 <= location.getX() && location.getX() < dimensions.getX();
+        boolean y = 0 <= location.getY() && location.getY() < dimensions.getY();
+        return x && y;
     }
 
     private Tile getCurrentTile()

@@ -49,4 +49,15 @@ public class IslandMapTest
         assertEquals(3, islandMap.getRange(Direction.NORTH));
         assertEquals(17, islandMap.getRange(Direction.SOUTH));
     }
+
+    @Test
+    public void increaseFromLeftBottom() throws Exception
+    {
+        islandMap.increase(Direction.NORTH, 10);
+        assertEquals(10, islandMap.getRange(Direction.NORTH));
+        islandMap.increase(Direction.WEST, 20);
+        assertEquals(20, islandMap.getRange(Direction.WEST));
+    }
+
+
 }

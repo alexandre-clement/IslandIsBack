@@ -194,7 +194,7 @@ public abstract class IslandMap
     private void addNorth()
     {
         dimensions.sub(Direction.NORTH.getUnitaryVector());
-        workforce.getLocation().sub(Direction.NORTH.getUnitaryVector());
+        workforce.move(Direction.NORTH.getBack().getUnitaryVector());
         for (int i = 0; i < dimensions.getX(); i++)
             map.add(0, new Tile());
     }
@@ -234,7 +234,7 @@ public abstract class IslandMap
     private void addWest()
     {
         dimensions.sub(Direction.WEST.getUnitaryVector());
-        workforce.getLocation().sub(Direction.WEST.getUnitaryVector());
+        workforce.move(Direction.WEST.getBack().getUnitaryVector());
         for (int i = 0; i < size(); i += dimensions.getX())
             map.add(i, new Tile());
     }

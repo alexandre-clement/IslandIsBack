@@ -3,8 +3,10 @@ package fr.unice.polytech.si3.qgl.iaad.strategy1;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Explore;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
-import fr.unice.polytech.si3.qgl.iaad.format.*;
+import fr.unice.polytech.si3.qgl.iaad.format.Context;
+import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.map.GroundMap;
+import fr.unice.polytech.si3.qgl.iaad.resource.Basket;
 import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
 import fr.unice.polytech.si3.qgl.iaad.resource.ResourceInformation;
 import fr.unice.polytech.si3.qgl.iaad.results.ExploreResult;
@@ -37,18 +39,16 @@ class ExploreTile implements Protocol
     public Protocol acknowledgeResults(Result result)
     {
         ExploreResult exploreResult = new ExploreResult(result);
+        Basket objective = new Basket();
+        context.getContracts().stream().map(Contract::getBasket).forEach(objective::addAll);
 
         for (ResourceInformation resourceInformation : exploreResult.getResourceInformation())
         {
-            for (Contract contract : context.getContracts())
-            {
-                boolean equals = contract.getBasket().contains(resourceInformation.getResource());
-                boolean complete = contract.complete();
-                boolean fair = resourceInformation.isFair();
-                boolean worth = resourceInformation.isWorth();
-                if (equals && !complete && fair && worth)
-                    exit = new ExploitTile(exit, context, map, resourceInformation.getResource());
-            }
+            boolean equals = objective.contains(resourceInformation.getResource());
+            boolean fair = resourceInformation.isFair();
+            boolean worth = resourceInformation.isWorth();
+            if (equals && fair && worth)
+                exit = new ExploitTile(exit, context, map, resourceInformation.getResource());
         }
         return exit;
     }

@@ -5,7 +5,7 @@ import fr.unice.polytech.si3.qgl.iaad.contract.Contract;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.strategy1.Strategy1;
+import fr.unice.polytech.si3.qgl.iaad.strategy.naive.StrategyNaive;
 
 /**
  * @author Alexandre Clement
@@ -21,7 +21,7 @@ public class Engine
 
     public Engine(Context context)
     {
-        this.protocol = new Strategy1(context);
+        this.protocol = new StrategyNaive(context);
         this.budget = context.getBudget();
         this.context = context;
     }

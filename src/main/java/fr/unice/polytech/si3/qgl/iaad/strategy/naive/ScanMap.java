@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.iaad.strategy1;
+package fr.unice.polytech.si3.qgl.iaad.strategy.naive;
 
 import fr.unice.polytech.si3.qgl.iaad.common.FlyOnMap;
 import fr.unice.polytech.si3.qgl.iaad.common.LandOnIsland;

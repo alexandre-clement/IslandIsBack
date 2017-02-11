@@ -1,4 +1,4 @@
-package fr.unice.polytech.si3.qgl.iaad.strategy1;
+package fr.unice.polytech.si3.qgl.iaad.strategy.naive;
 
 import fr.unice.polytech.si3.qgl.iaad.common.StopGame;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
@@ -15,13 +15,13 @@ import fr.unice.polytech.si3.qgl.iaad.utils.Drone;
  * @author Alexandre Clement
  * @since 06/02/2017.
  */
-public class Strategy1 implements Protocol
+public class StrategyNaive implements Protocol
 {
     private final Context context;
     private final Board board;
     private final Drone drone;
 
-    public Strategy1(Context context)
+    public StrategyNaive(Context context)
     {
         this.context = context;
         board = context.getBoard();

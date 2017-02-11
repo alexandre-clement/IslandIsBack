@@ -22,13 +22,20 @@ class MoveOnMap implements Protocol
     private final Board board;
     private final Crew crew;
     private final Direction direction;
+    private final Direction sense;
 
     MoveOnMap(Context context, Board board, Crew crew, Direction direction)
+    {
+        this(context, board, crew, direction, direction.getLeft());
+    }
+
+    private MoveOnMap(Context context, Board board, Crew crew, Direction direction, Direction sense)
     {
         this.context = context;
         this.board = board;
         this.crew = crew;
         this.direction = direction;
+        this.sense = sense;
     }
 
     @Override
@@ -46,12 +53,12 @@ class MoveOnMap implements Protocol
         board.getTile(crew.getLocation()).visit();
         Protocol exit;
 
-        if (canMoveInDirection(direction.getLeft()))
-            exit = new MoveOnMap(context, board, crew, direction.getLeft());
+        if (canMoveInDirection(sense))
+            exit = new MoveOnMap(context, board, crew, sense, direction.getBack());
         else if (canMoveInDirection(direction))
-            exit = new MoveOnMap(context, board, crew, direction);
-        else if (canMoveInDirection(direction.getRight()))
-            exit = new MoveOnMap(context, board, crew, direction.getRight());
+            exit = new MoveOnMap(context, board, crew, direction, sense);
+        else if (canMoveInDirection(sense.getBack()))
+            exit = new MoveOnMap(context, board, crew, sense.getBack(), direction.getBack());
         else
             exit = new StopGame();
 

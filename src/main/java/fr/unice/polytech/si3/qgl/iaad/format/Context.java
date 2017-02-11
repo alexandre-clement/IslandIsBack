@@ -1,8 +1,8 @@
 package fr.unice.polytech.si3.qgl.iaad.format;
 
+import fr.unice.polytech.si3.qgl.iaad.contract.Contract;
+import fr.unice.polytech.si3.qgl.iaad.map.Board;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
-import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface Context
 
     int getBudget();
 
-    AerialMap getIslandMap();
+    Board getBoard();
 
     int getMen();
 

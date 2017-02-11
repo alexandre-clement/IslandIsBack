@@ -1,72 +1,53 @@
 package fr.unice.polytech.si3.qgl.iaad.resource;
 
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.Collection;
 
 /**
  * @author Alexandre Clement
  * @since 09/02/2017.
  */
-public class Basket extends ArrayList<Resource>
+public interface Basket extends Iterable<Resource>
 {
-    public Basket()
+    int size();
+
+    default boolean isEmpty()
     {
-        super();
+        return size() == 0;
     }
 
-    private Basket(Collection<Resource> resources)
-    {
-        super(resources);
-    }
+    void add(Resource resource, int amount);
 
-    public void add(Resource resource, double number)
+    default void add(Basket basket)
     {
-        add(resource, (int) Math.ceil(number));
-    }
-
-    public void add(Resource resource, int number)
-    {
-        IntStream.range(0, number).forEach(i -> this.add(resource));
-    }
-
-    void remove(Resource resource, int number)
-    {
-        IntStream.range(0, number).forEach(i -> this.remove(resource));
-    }
-
-    public void remove(Basket basket)
-    {
-        Basket temp = new Basket(basket);
-
-        for (Resource resource : temp)
-        {
-            remove(resource);
-        }
-    }
-
-    public boolean contains(Basket basket)
-    {
-        Basket temp = new Basket(this);
         for (Resource resource : basket)
         {
-            if (temp.contains(resource))
-                temp.remove(resource);
-            else
-                return false;
+            add(resource, 1);
         }
-        return true;
     }
 
-    private int countResource(Resource resource)
+    default void addAll(Collection<Basket> baskets)
     {
-        return (int) super.stream().filter(i -> i.equals(resource)).count();
+        for (Basket basket : baskets)
+        {
+            add(basket);
+        }
     }
 
-    Map<Resource, Integer> getMap()
+    void remove(Resource resource, int amount);
+
+    default void remove(Basket basket)
     {
-        Map<Resource, Integer> map = new EnumMap<>(Resource.class);
-        for (Resource resource : new HashSet<>(this))
-            map.put(resource, countResource(resource));
-        return map;
+        for (Resource resource : basket)
+        {
+            remove(resource, 1);
+        }
     }
+
+    boolean contains(Resource resource);
+
+    boolean contains(Basket basket);
+
+    int count(Resource resource);
+
+    void clear();
 }

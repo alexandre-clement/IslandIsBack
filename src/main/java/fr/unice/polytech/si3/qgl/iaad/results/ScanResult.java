@@ -2,8 +2,8 @@ package fr.unice.polytech.si3.qgl.iaad.results;
 
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.resource.Biomes;
-import fr.unice.polytech.si3.qgl.iaad.resource.Creek;
-import fr.unice.polytech.si3.qgl.iaad.resource.Site;
+import fr.unice.polytech.si3.qgl.iaad.utils.Creek;
+import fr.unice.polytech.si3.qgl.iaad.utils.Site;
 
 import java.util.List;
 

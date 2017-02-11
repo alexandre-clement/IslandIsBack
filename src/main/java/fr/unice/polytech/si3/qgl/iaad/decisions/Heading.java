@@ -18,11 +18,6 @@ public class Heading extends Decision
         this.newHeading = newHeading;
     }
 
-    public Direction getNewHeading()
-    {
-        return newHeading;
-    }
-
     @Override
     public JSONObject toJson()
     {

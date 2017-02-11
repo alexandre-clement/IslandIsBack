@@ -6,10 +6,10 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.map.Direction;
+import fr.unice.polytech.si3.qgl.iaad.map.Board;
 import fr.unice.polytech.si3.qgl.iaad.resource.Found;
-import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
+import fr.unice.polytech.si3.qgl.iaad.utils.Drone;
 
 /**
  * @author Alexandre Clement
@@ -17,31 +17,31 @@ import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
  */
 public class Strategy1 implements Protocol
 {
-    private final AerialMap map;
-    private final Direction heading;
     private final Context context;
+    private final Board board;
+    private final Drone drone;
 
     public Strategy1(Context context)
     {
         this.context = context;
-        map = context.getIslandMap();
-        heading = context.getHeading();
+        board = context.getBoard();
+        drone = new Drone(context.getHeading());
     }
 
     @Override
     public Decision takeDecision()
     {
-        return new Echo(heading);
+        return new Echo(drone.getHeading());
     }
 
     @Override
     public Protocol acknowledgeResults(Result result)
     {
         EchoResult echoResult = new EchoResult(result);
-        map.increase(heading, echoResult.getRange());
+        board.increase(drone.getHeading(), echoResult.getRange());
 
         if (echoResult.getFound() == Found.GROUND)
             return new StopGame();
-        return new EchoToFindLimit(context, map, heading.getRight());
+        return new EchoToFindLimit(context, board, drone, drone.getHeading().getRight());
     }
 }

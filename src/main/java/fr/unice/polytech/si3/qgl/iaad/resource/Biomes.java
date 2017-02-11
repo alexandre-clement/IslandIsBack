@@ -1,7 +1,5 @@
 package fr.unice.polytech.si3.qgl.iaad.resource;
 
-import fr.unice.polytech.si3.qgl.iaad.resource.Resource;
-
 /**
  * @author Alexandre Clement
  * @since 06/02/2017.

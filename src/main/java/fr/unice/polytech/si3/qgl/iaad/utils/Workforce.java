@@ -1,4 +1,7 @@
-package fr.unice.polytech.si3.qgl.iaad.map;
+package fr.unice.polytech.si3.qgl.iaad.utils;
+
+import fr.unice.polytech.si3.qgl.iaad.vector.SimpleVector;
+import fr.unice.polytech.si3.qgl.iaad.vector.Vector;
 
 /**
  * @author Alexandre Clement
@@ -13,9 +16,9 @@ class Workforce
         this.location = location;
     }
 
-    Vector getLocation()
+    public Vector getLocation()
     {
-        return new Vector(location);
+        return new SimpleVector(location);
     }
 
     void setLocation(Vector location)

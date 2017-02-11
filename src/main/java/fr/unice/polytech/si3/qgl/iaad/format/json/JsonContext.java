@@ -1,11 +1,12 @@
 package fr.unice.polytech.si3.qgl.iaad.format.json;
 
+import fr.unice.polytech.si3.qgl.iaad.contract.Contract;
+import fr.unice.polytech.si3.qgl.iaad.contract.SimpleContract;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
-import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
-import fr.unice.polytech.si3.qgl.iaad.resource.Resource;
+import fr.unice.polytech.si3.qgl.iaad.map.Board;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.Drone;
-import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
+import fr.unice.polytech.si3.qgl.iaad.map.SimpleBoard;
+import fr.unice.polytech.si3.qgl.iaad.resource.Resource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,7 +21,7 @@ class JsonContext implements Context
 {
     private final int budget;
     private final Direction heading;
-    private final AerialMap islandMap;
+    private final Board board;
     private final int men;
     private final List<Contract> contracts;
 
@@ -28,7 +29,7 @@ class JsonContext implements Context
     {
         heading = Direction.directionOf(jsonObject.get(JsonArguments.HEADING.toString()).toString());
         budget = jsonObject.getInt(JsonArguments.BUDGET.toString());
-        islandMap = new AerialMap(new Drone(heading));
+        board = new SimpleBoard();
         men = jsonObject.getInt(JsonArguments.MEN.toString());
         contracts = retrievesContracts(jsonObject);
     }
@@ -42,7 +43,7 @@ class JsonContext implements Context
             JSONObject contract = contractsArray.getJSONObject(i);
             Resource resource = Resource.valueOf(contract.get(JsonArguments.RESOURCE.toString()).toString());
             int amount = contract.getInt(JsonArguments.AMOUNT.toString());
-            retrieves.add(new Contract(resource, amount));
+            retrieves.add(new SimpleContract(resource, amount));
         }
         return retrieves;
     }
@@ -60,9 +61,9 @@ class JsonContext implements Context
     }
 
     @Override
-    public AerialMap getIslandMap()
+    public Board getBoard()
     {
-        return islandMap;
+        return board;
     }
 
     @Override

@@ -1,4 +1,7 @@
-package fr.unice.polytech.si3.qgl.iaad.map;
+package fr.unice.polytech.si3.qgl.iaad.utils;
+
+import fr.unice.polytech.si3.qgl.iaad.map.Direction;
+import fr.unice.polytech.si3.qgl.iaad.vector.SimpleVector;
 
 /**
  * @author Alexandre Clement
@@ -10,7 +13,7 @@ public class Drone extends Workforce
 
     public Drone(Direction heading)
     {
-        super(new Vector());
+        super(new SimpleVector(0, 0));
         this.heading = heading;
     }
 

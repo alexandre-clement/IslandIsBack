@@ -1,10 +1,10 @@
 package fr.unice.polytech.si3.qgl.iaad.strategy1;
 
+import fr.unice.polytech.si3.qgl.iaad.contract.Contract;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Transform;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
 import fr.unice.polytech.si3.qgl.iaad.results.TransformResult;
 
 /**
@@ -25,14 +25,14 @@ class TransformResource implements Protocol
     @Override
     public Decision takeDecision()
     {
-        return new Transform(contract.getUnderContract());
+        return new Transform(contract.getCraft());
     }
 
     @Override
     public Protocol acknowledgeResults(Result result)
     {
         TransformResult transformResult = new TransformResult(result);
-        contract.collect(transformResult.getProduction());
+        contract.collected(transformResult.getProduction());
         return exit;
     }
 }

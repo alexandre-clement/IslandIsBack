@@ -1,13 +1,15 @@
 package fr.unice.polytech.si3.qgl.iaad.strategy1;
 
+import fr.unice.polytech.si3.qgl.iaad.common.Turn;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Echo;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
+import fr.unice.polytech.si3.qgl.iaad.map.Board;
 import fr.unice.polytech.si3.qgl.iaad.map.Direction;
-import fr.unice.polytech.si3.qgl.iaad.map.AerialMap;
 import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
+import fr.unice.polytech.si3.qgl.iaad.utils.Drone;
 
 /**
  * @author Alexandre Clement
@@ -16,13 +18,15 @@ import fr.unice.polytech.si3.qgl.iaad.results.EchoResult;
 class EchoToFindLimit implements Protocol
 {
     private final Context context;
-    private final AerialMap map;
+    private final Board board;
+    private final Drone drone;
     private final Direction direction;
 
-    EchoToFindLimit(Context context, AerialMap map, Direction direction)
+    EchoToFindLimit(Context context, Board board, Drone drone, Direction direction)
     {
         this.context = context;
-        this.map = map;
+        this.board = board;
+        this.drone = drone;
         this.direction = direction;
     }
 
@@ -36,15 +40,15 @@ class EchoToFindLimit implements Protocol
     public Protocol acknowledgeResults(Result result)
     {
         EchoResult echoResult = new EchoResult(result);
-        Direction heading = map.getDrone().getHeading();
+        Direction heading = drone.getHeading();
 
-        map.increase(direction, echoResult.getRange());
+        board.increase(direction, echoResult.getRange());
 
         if (heading.getRight() == direction)
-            return new EchoToFindLimit(context, map, direction.getBack());
+            return new EchoToFindLimit(context, board, drone, direction.getBack());
 
-        boolean keepDirection = map.getRange(direction) > map.getRange(direction.getBack());
+        boolean keepDirection = board.getRange(direction, drone.getLocation()) > board.getRange(direction.getBack(), drone.getLocation());
         Direction newHeading = keepDirection ? direction : direction.getBack();
-        return new Turn(new ScanMap(context, map, heading), map, newHeading);
+        return new Turn(new ScanMap(context, board, drone, heading), board, drone, newHeading);
     }
 }

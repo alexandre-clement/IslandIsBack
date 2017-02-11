@@ -1,15 +1,20 @@
 package fr.unice.polytech.si3.qgl.iaad.strategy1;
 
+import fr.unice.polytech.si3.qgl.iaad.contract.Contract;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Decision;
 import fr.unice.polytech.si3.qgl.iaad.decisions.Explore;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Context;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
-import fr.unice.polytech.si3.qgl.iaad.map.GroundMap;
+import fr.unice.polytech.si3.qgl.iaad.map.Board;
 import fr.unice.polytech.si3.qgl.iaad.resource.Basket;
-import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
 import fr.unice.polytech.si3.qgl.iaad.resource.ResourceInformation;
+import fr.unice.polytech.si3.qgl.iaad.resource.SimpleBasket;
 import fr.unice.polytech.si3.qgl.iaad.results.ExploreResult;
+import fr.unice.polytech.si3.qgl.iaad.utils.Crew;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -18,15 +23,17 @@ import fr.unice.polytech.si3.qgl.iaad.results.ExploreResult;
  */
 class ExploreTile implements Protocol
 {
-    private Protocol exit;
     private final Context context;
-    private final GroundMap map;
+    private final Board board;
+    private final Crew crew;
+    private Protocol exit;
 
-    ExploreTile(Protocol exit, Context context, GroundMap map)
+    ExploreTile(Protocol exit, Context context, Board board, Crew crew)
     {
         this.exit = exit;
         this.context = context;
-        this.map = map;
+        this.board = board;
+        this.crew = crew;
     }
 
     @Override
@@ -39,16 +46,18 @@ class ExploreTile implements Protocol
     public Protocol acknowledgeResults(Result result)
     {
         ExploreResult exploreResult = new ExploreResult(result);
-        Basket objective = new Basket();
-        context.getContracts().stream().map(Contract::getBasket).forEach(objective::addAll);
+        List<Basket> contracts = context.getContracts().stream().filter(contract -> !contract.isComplete()).map(Contract::getReagentResources).collect(Collectors.toList());
+        Basket objective = new SimpleBasket();
+        objective.addAll(contracts);
 
         for (ResourceInformation resourceInformation : exploreResult.getResourceInformation())
         {
-            boolean equals = objective.contains(resourceInformation.getResource());
+            boolean isInAContract = objective.contains(resourceInformation.getResource());
+            boolean isUseful = objective.count(resourceInformation.getResource()) > crew.getBasket().count(resourceInformation.getResource());
             boolean fair = resourceInformation.isFair();
             boolean worth = resourceInformation.isWorth();
-            if (equals && fair && worth)
-                exit = new ExploitTile(exit, context, map, resourceInformation.getResource());
+            if (isInAContract && isUseful && fair && worth)
+                exit = new ExploitTile(exit, context, board, crew, resourceInformation.getResource());
         }
         return exit;
     }

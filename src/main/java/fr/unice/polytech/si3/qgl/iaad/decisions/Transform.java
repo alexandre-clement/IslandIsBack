@@ -1,10 +1,11 @@
 package fr.unice.polytech.si3.qgl.iaad.decisions;
 
+import fr.unice.polytech.si3.qgl.iaad.craft.Craft;
 import fr.unice.polytech.si3.qgl.iaad.format.json.JsonArguments;
-import fr.unice.polytech.si3.qgl.iaad.resource.Contract;
+import fr.unice.polytech.si3.qgl.iaad.resource.Resource;
 import org.json.JSONObject;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alexandre Clement
@@ -12,20 +13,22 @@ import java.util.List;
  */
 public class Transform extends Decision
 {
-    private final List<Contract> contracts;
+    private final Craft craft;
 
-    public Transform(List<Contract> contracts)
+    public Transform(Craft craft)
     {
         super(Actions.TRANSFORM);
-        this.contracts = contracts;
+        this.craft = craft;
     }
 
     @Override
     public JSONObject toJson()
     {
         JSONObject parameters = new JSONObject();
-        for (Contract contract : contracts)
-            parameters.put(contract.getResource().toString(), contract.getAmount());
+        for (Map.Entry<Resource, Integer> entry : craft.getReagent())
+        {
+            parameters.put(entry.getKey().toString(), entry.getValue());
+        }
         return new JSONObject()
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);

@@ -48,4 +48,25 @@ public class SimpleRecipe implements Recipe
         products.add(new SimpleProduct(resource, amount));
         return new SimpleCraft(reagents.stream().toArray(Reagent[]::new), products.stream().toArray(Product[]::new));
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SimpleRecipe that = (SimpleRecipe) o;
+
+        return craft.equals(that.craft) && map.equals(that.map);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = craft.hashCode();
+        result = 31 * result + map.hashCode();
+        return result;
+    }
 }

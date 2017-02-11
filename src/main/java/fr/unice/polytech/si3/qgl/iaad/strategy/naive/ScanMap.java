@@ -64,8 +64,9 @@ class ScanMap implements Protocol
         if (!tile.getCreeks().isEmpty())
         {
             Board groundBoard = new SimpleBoard(board.getDimensions().mul(boxesInTile));
-            Protocol exit = new MoveOnMap(context, groundBoard, new Crew(drone.getLocation().mul(ratio), CREW), direction);
-            return new LandOnIsland(exit, tile.getCreeks().get(0), CREW);
+            Crew crew = new Crew(drone.getLocation().mul(ratio), CREW);
+            Protocol exit = new MoveOnMap(context, groundBoard, crew, direction);
+            return new LandOnIsland(exit, tile.getCreeks().get(0), crew);
         }
 
         if (board.getRange(heading, drone.getLocation()) > 1)

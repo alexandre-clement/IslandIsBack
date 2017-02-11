@@ -119,6 +119,27 @@ public class SimpleBoard implements Board
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SimpleBoard that = (SimpleBoard) o;
+
+        return map.equals(that.map) && rectangle.equals(that.rectangle);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = map.hashCode();
+        result = 31 * result + rectangle.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString()
     {
         return map.toString();

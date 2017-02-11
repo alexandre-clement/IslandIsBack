@@ -86,6 +86,25 @@ public class SimpleBasket implements Basket
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SimpleBasket resources1 = (SimpleBasket) o;
+
+        return resources.equals(resources1.resources);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return resources.hashCode();
+    }
+
+    @Override
     public String toString()
     {
         return resources.toString();

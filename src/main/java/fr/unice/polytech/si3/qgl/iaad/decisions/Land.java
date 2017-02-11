@@ -30,4 +30,28 @@ public class Land extends Decision
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+
+        Land land = (Land) o;
+
+        return people == land.people && creek.equals(land.creek);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + creek.hashCode();
+        result = 31 * result + people;
+        return result;
+    }
 }

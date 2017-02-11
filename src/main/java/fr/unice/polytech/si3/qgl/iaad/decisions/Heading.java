@@ -26,4 +26,27 @@ public class Heading extends Decision
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+
+        Heading heading = (Heading) o;
+
+        return newHeading == heading.newHeading;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + newHeading.hashCode();
+        return result;
+    }
 }

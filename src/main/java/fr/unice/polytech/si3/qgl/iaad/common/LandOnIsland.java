@@ -5,6 +5,7 @@ import fr.unice.polytech.si3.qgl.iaad.decisions.Land;
 import fr.unice.polytech.si3.qgl.iaad.engine.Protocol;
 import fr.unice.polytech.si3.qgl.iaad.format.Result;
 import fr.unice.polytech.si3.qgl.iaad.utils.Creek;
+import fr.unice.polytech.si3.qgl.iaad.utils.Crew;
 
 /**
  * @author Alexandre Clement
@@ -14,19 +15,19 @@ public class LandOnIsland implements Protocol
 {
     private final Protocol exit;
     private final Creek creek;
-    private final int people;
+    private final Crew crew;
 
-    public LandOnIsland(Protocol exit, Creek creek, int people)
+    public LandOnIsland(Protocol exit, Creek creek, Crew crew)
     {
         this.exit = exit;
         this.creek = creek;
-        this.people = people;
+        this.crew = crew;
     }
 
     @Override
     public Decision takeDecision()
     {
-        return new Land(creek, people);
+        return new Land(creek, crew.getPeople());
     }
 
     @Override

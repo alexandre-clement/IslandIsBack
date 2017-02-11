@@ -77,4 +77,30 @@ class JsonContext implements Context
     {
         return contracts;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        JsonContext that = (JsonContext) o;
+
+        boolean sameBudgetAndMen = budget == that.budget && men == that.men;
+        boolean sameHeadingAndMap = heading == that.heading && board.equals(that.board);
+        return sameBudgetAndMen && sameHeadingAndMap && contracts.equals(that.contracts);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = budget;
+        result = 31 * result + heading.hashCode();
+        result = 31 * result + board.hashCode();
+        result = 31 * result + men;
+        result = 31 * result + contracts.hashCode();
+        return result;
+    }
 }

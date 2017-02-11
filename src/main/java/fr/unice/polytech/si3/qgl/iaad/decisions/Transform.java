@@ -33,4 +33,27 @@ public class Transform extends Decision
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+
+        Transform transform = (Transform) o;
+
+        return craft.equals(transform.craft);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + craft.hashCode();
+        return result;
+    }
 }

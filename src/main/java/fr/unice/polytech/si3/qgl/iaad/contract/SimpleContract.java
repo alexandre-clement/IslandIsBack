@@ -86,6 +86,32 @@ public class SimpleContract implements Contract
     }
 
     @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SimpleContract that = (SimpleContract) o;
+
+        boolean sameAmountAndResource = amount == that.amount && resource == that.resource;
+        boolean sameBaskets = reagentBasket.equals(that.getReagentResources()) && productsBasket.equals(that.getProductsResources());
+        return sameAmountAndResource && sameBaskets && recipe.equals(that.recipe);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = resource.hashCode();
+        result = 31 * result + amount;
+        result = 31 * result + reagentBasket.hashCode();
+        result = 31 * result + productsBasket.hashCode();
+        result = 31 * result + recipe.hashCode();
+        return result;
+    }
+
+    @Override
     public String toString()
     {
         return String.format("Contract{%s : %s : %s : %s}", resource, amount, reagentBasket.size(), productsBasket.size());

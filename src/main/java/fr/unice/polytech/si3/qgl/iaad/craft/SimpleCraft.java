@@ -10,24 +10,46 @@ import java.util.Set;
  */
 public class SimpleCraft implements Craft
 {
-    private final Product[] products;
-    private final Reagent[] reagents;
+
+    private final Set<Product> products;
+    private final Set<Reagent> reagents;
 
     SimpleCraft(Reagent[] reagents, Product... products)
     {
-        this.products = products;
-        this.reagents = reagents;
+        this.products = new HashSet<>(Arrays.asList(products));
+        this.reagents = new HashSet<>(Arrays.asList(reagents));
     }
 
     @Override
     public Set<Product> getProduct()
     {
-        return new HashSet<>(Arrays.asList(products));
+        return products;
     }
 
     @Override
     public Set<Reagent> getReagent()
     {
-        return new HashSet<>(Arrays.asList(reagents));
+        return reagents;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SimpleCraft that = (SimpleCraft) o;
+
+        return products.equals(that.products) && reagents.equals(that.reagents);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = products.hashCode();
+        result = 31 * result + reagents.hashCode();
+        return result;
     }
 }

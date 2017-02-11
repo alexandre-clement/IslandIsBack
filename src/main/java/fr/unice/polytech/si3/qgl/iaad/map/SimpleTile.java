@@ -84,11 +84,7 @@ public class SimpleTile implements Tile
 
         SimpleTile that = (SimpleTile) o;
 
-        boolean sameVisit = visited == that.visited;
-        boolean sameBiomes = biomes.equals(that.biomes);
-        boolean sameCreeks = creeks.equals(that.creeks);
-        boolean sameSites = sites.equals(that.sites);
-        return sameVisit && sameBiomes && sameCreeks && sameSites;
+        return visited == that.visited && biomes.equals(that.biomes) && creeks.equals(that.creeks) && sites.equals(that.sites);
     }
 
     @Override

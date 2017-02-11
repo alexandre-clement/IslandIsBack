@@ -15,16 +15,12 @@ public class SimpleRectangle implements Rectangle
 
     public SimpleRectangle()
     {
-        map = new EnumMap<>(Direction.class);
-        map.put(Direction.WEST, 0);
-        map.put(Direction.NORTH, 0);
-        map.put(Direction.EAST, 0);
-        map.put(Direction.SOUTH, 0);
+        this(0, 0, 0, 0);
     }
 
     public SimpleRectangle(int west, int north, int east, int south)
     {
-        this();
+        map = new EnumMap<>(Direction.class);
         map.put(Direction.WEST, west);
         map.put(Direction.NORTH, north);
         map.put(Direction.EAST, east);
@@ -72,13 +68,13 @@ public class SimpleRectangle implements Rectangle
 
         SimpleRectangle that = (SimpleRectangle) o;
 
-        return map != null ? map.equals(that.map) : that.map == null;
+        return map.equals(that.map);
     }
 
     @Override
     public int hashCode()
     {
-        return map != null ? map.hashCode() : 0;
+        return map.hashCode();
     }
 
     @Override

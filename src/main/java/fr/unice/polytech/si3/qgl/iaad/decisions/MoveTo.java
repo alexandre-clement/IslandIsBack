@@ -26,4 +26,27 @@ public class MoveTo extends Decision
                 .put(JsonArguments.ACTION.toString(), getActions().toString())
                 .put(JsonArguments.PARAMETERS.toString(), parameters);
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+
+        MoveTo moveTo = (MoveTo) o;
+
+        return direction == moveTo.direction;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = super.hashCode();
+        result = 31 * result + direction.hashCode();
+        return result;
+    }
 }

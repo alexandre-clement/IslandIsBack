@@ -55,7 +55,7 @@ public class Crew extends Workforce
 
         Crew crew = (Crew) o;
 
-        return people == crew.people && basket.equals(crew.basket) && super.equals(o);
+        return people == crew.people && basket.equals(crew.basket);
     }
 
     @Override

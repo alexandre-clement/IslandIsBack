@@ -69,7 +69,8 @@ public class SimpleContract implements Contract
         else
         {
             productsBasket.remove(resource, production);
-            reagentBasket.remove(recipe.getRequiredResourcesFor(resource, production));
+            reagentBasket.clear();
+            reagentBasket.add(recipe.getRequiredResourcesFor(resource, productsBasket.count(resource)));
         }
     }
 
